@@ -4,6 +4,10 @@
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
     </form>
+    <button @click="GetCurrentPosition">Current position</button>
+    <p v-if="latitude !== null && longitude !== null">
+        Current position: LAT: {{ latitude }}, LON: {{ longitude }}
+    </p>
     <div id="weather-data">
         <p>{{ resultCity }}</p>
         <p>{{ resultTemp }}</p>
@@ -40,7 +44,7 @@ export default {
 
             console.log(result)
 
-            if(result.cod != "200"){ //Felhantering så att inte undefined blir inlagt i historik-array. 
+            if (result.cod != "200") { //Felhantering så att inte undefined blir inlagt i historik-array. 
                 alert(`Error: ${result.cod}, ${result.message} \nPlease try again!`);
                 return;
             }
@@ -48,8 +52,6 @@ export default {
             this.resultCity = result.name;
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.resultWeather = result.weather[0].description;
-            this.latitude = result.coord.lat;
-            this.longitude = result.coord.lon;
 
             this.AddToHistory({
                 city: this.resultCity,
@@ -61,6 +63,22 @@ export default {
             this.searchHistory.unshift(search); // Lägger till element i början av array
             this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
+        },
+        GetCurrentPosition() {
+            if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
+                navigator.geolocation.getCurrentPosition(
+                    (position) => { 
+                        this.latitude = position.coords.latitude;
+                        this.longitude = position.coords.longitude;
+                    },
+                    (error) => {
+                        alert("Error getting location:", error.message)
+                    }
+                );
+            }
+            else {
+                alert("Geolocation not supported by this browser");
+            }
         }
     }
 }
