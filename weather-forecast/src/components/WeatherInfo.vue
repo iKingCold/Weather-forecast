@@ -9,6 +9,11 @@
         <p>{{ resultTemp }}</p>
         <p>{{ resultWeather }}</p>
     </div>
+    <div class="search-history">
+        <ul>
+            <li v-for="search in searchHistory" :key="search.city">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -21,6 +26,9 @@ export default {
             resultCity: "",
             resultTemp: "",
             resultWeather: "",
+            latitude: null,    // För senare anrop av långtids-prognos
+            longitude: null,   // För senare anrop av långtids-prognos
+            searchHistory: [],
         };
     },
     methods: {
@@ -33,7 +41,21 @@ export default {
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.resultWeather = result.weather[0].description;
 
-            console.log(result);
+            this.latitude = result.coord.lat;
+            this.longitude = result.coord.lon;
+
+            this.addToHistory({
+                city: this.resultCity,
+                temperature: this.resultTemp,
+                weather: this.resultWeather,
+            })
+
+            console.log(result)
+        },
+        addToHistory(search) {
+            this.searchHistory.unshift(search); // Lägger till element i början av array
+
+            this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
         }
     }
 }
