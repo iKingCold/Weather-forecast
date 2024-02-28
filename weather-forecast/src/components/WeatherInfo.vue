@@ -15,7 +15,7 @@
     </div>
     <div class="search-history">
         <ul>
-            <li v-for="search in searchHistory" :key="search.city">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+            <li v-for="search in searchHistory" :key="search">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
         </ul>
     </div>
 </template>
