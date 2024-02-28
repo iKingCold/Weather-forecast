@@ -1,12 +1,18 @@
 <template>
   <h1>Vad blir det för väder?</h1>
+  <WeatherInfo />
 </template>
 
 <script>
+import WeatherInfo from "./components/WeatherInfo.vue";
 
 export default {
   name: 'App',
-  components: { }
+  data() {
+    return {
+    };
+  },
+  components: { WeatherInfo }
 }
 </script>
 
