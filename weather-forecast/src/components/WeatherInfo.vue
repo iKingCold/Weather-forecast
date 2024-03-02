@@ -1,5 +1,4 @@
 <template>
-    <h2>Weather component</h2>
     <form id="weather-form" @submit.prevent="FetchWeather">
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
@@ -8,28 +7,36 @@
     <p v-if="latitude !== null && longitude !== null">
         Current position: LAT: {{ latitude }}, LON: {{ longitude }}
     </p>
-    <div id="weather-data">
-        <p>{{ resultCity }}</p>
-        <p>{{ resultTemp }}</p>
-        <p>{{ resultWeather }}</p>
-    </div>
     <div class="search-history">
-        <ul>
-            <li v-for="search in searchHistory" :key="search">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+        <ul class="history-boxes">
+            <li v-for="search in searchHistory" :key="search" class="history-box">{{ search.city }} - {{
+                search.temperature }} {{ search.weather }}</li>
         </ul>
+    </div>
+    <div v-show="submitted">
+        <DisplayCityWeather :weatherData="weatherData" />
     </div>
 </template>
 
 <script>
+import DisplayCityWeather from './DisplayCityWeather.vue';
+
 export default {
+    components: { DisplayCityWeather },
+
     data() {
         return {
             apiKey: "0fb98056d14c0b3b443c610b4ebe30e9",
             apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
             city: null,
-            resultCity: null,
-            resultTemp: null,
-            resultWeather: null,
+            submitted: false,
+
+            weatherData: {
+                resultCity: null,
+                resultTemp: null,
+                resultWeather: null,
+            },
+
             latitude: null,    // För senare anrop av långtids-prognos
             longitude: null,   // För senare anrop av långtids-prognos
             searchHistory: JSON.parse(localStorage.getItem('searchHistory')) || [], //Hämtar data från LocalStorage, är LocalStorage tom, gör arrayen tom. 
@@ -49,6 +56,12 @@ export default {
                 return;
             }
 
+            // Displays in 'DisplayCityWeather' component
+            this.weatherData.resultCity = result.name;
+            this.weatherData.resultTemp = `${Math.round(result.main.temp)}°C`;
+            this.weatherData.resultWeather = result.weather[0].description;
+
+            // Latest search put in history boxes
             this.resultCity = result.name;
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.resultWeather = result.weather[0].description;
@@ -58,6 +71,8 @@ export default {
                 temperature: this.resultTemp,
                 weather: this.resultWeather,
             })
+
+            this.submitted = true
         },
         AddToHistory(search) {
             this.searchHistory.unshift(search); // Lägger till element i början av array
@@ -67,7 +82,7 @@ export default {
         GetCurrentPosition() {
             if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
                 navigator.geolocation.getCurrentPosition(
-                    (position) => { 
+                    (position) => {
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
                     },

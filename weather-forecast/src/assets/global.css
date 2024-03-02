@@ -12,3 +12,32 @@ p {
     color: red;
     font-weight: bold;
 }
+
+.history-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px;
+}
+
+.history-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    width: 300px;
+    background: rgba(61, 242, 255, 0.7);
+    border-radius: 10px;;
+}
+
+#weather-data {
+    background: rgba(221, 221, 221, 0.6);
+    height: 100vh;
+}
+
+.container {
+    background: url('@/assets/sky-background.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}

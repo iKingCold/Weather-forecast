@@ -1,6 +1,8 @@
 <template>
-  <h1>Vad blir det för väder?</h1>
-  <WeatherInfo />
+  <div class="container">
+    <h1>Calås & Flink's Weather App</h1>
+    <WeatherInfo />
+  </div>
 </template>
 
 <script>
@@ -23,6 +25,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
