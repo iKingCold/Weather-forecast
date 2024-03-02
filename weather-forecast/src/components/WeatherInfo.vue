@@ -9,7 +9,7 @@
     </p>
     <div class="search-history">
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box">{{ search.city }} - {{
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityWeather(search)">{{ search.city }} - {{
                 search.temperature }} {{ search.weather }}</li>
         </ul>
     </div>
@@ -78,6 +78,15 @@ export default {
             this.searchHistory.unshift(search); // Lägger till element i början av array
             this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
+        },
+        ShowCityWeather(search) {
+            console.log("Showing info", search)
+
+            this.weatherData.resultCity = search.city;
+            this.weatherData.resultTemp = search.temperature;
+            this.weatherData.resultWeather = search.weather;
+
+            this.submitted = true;
         },
         GetCurrentPosition() {
             if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
