@@ -90,9 +90,13 @@ export default {
         ShowCityBoxClick(search) {
             console.log("Showing info", search)
 
-            this.weatherData.resultCity = search.city;
-            this.weatherData.resultTemp = search.temperature;
-            this.weatherData.resultWeather = search.weather;
+            this.city = search.city;
+            this.FetchWeather();
+            this.city = null;
+            
+            // this.weatherData.resultCity = search.city;
+            // this.weatherData.resultTemp = search.temperature;
+            // this.weatherData.resultWeather = search.weather;
 
             this.submitted = true;
         },
