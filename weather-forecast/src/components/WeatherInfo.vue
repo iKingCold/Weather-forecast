@@ -4,17 +4,20 @@
         <input type="text" name="city" id="city" v-model="city">
     </form>
     <button @click="GetCurrentPosition">Current position</button>
-    <p v-if="latitude !== null && longitude !== null">
-        Current position: LAT: {{ latitude }}, LON: {{ longitude }}
+    <p v-if="currentLatitude !== null && currentLongitude !== null">
+        Current position: LAT: {{ currentLatitude }}, LON: {{ currentLongitude }}
     </p>
     <div class="search-history">
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityWeather(search)">{{ search.city }} - {{
-                search.temperature }} {{ search.weather }}</li>
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
         </ul>
     </div>
     <div v-show="submitted">
-        <DisplayCityWeather :weatherData="weatherData" />
+        <DisplayCityWeather
+        :weatherData="weatherData"
+        :apiKey="apiKey"
+        :cityLatitude="cityLatitude"
+        :cityLongitude="cityLongitude" />
     </div>
 </template>
 
@@ -37,8 +40,10 @@ export default {
                 resultWeather: null,
             },
 
-            latitude: null,    // För senare anrop av långtids-prognos
-            longitude: null,   // För senare anrop av långtids-prognos
+            currentLatitude: null,    // För senare anrop av långtids-prognos
+            currentLongitude: null,   // För senare anrop av långtids-prognos
+            cityLatitude: null,
+            cityLongitude: null,
             searchHistory: JSON.parse(localStorage.getItem('searchHistory')) || [], //Hämtar data från LocalStorage, är LocalStorage tom, gör arrayen tom. 
         };
     },
@@ -61,6 +66,9 @@ export default {
             this.weatherData.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.weatherData.resultWeather = result.weather[0].description;
 
+            this.cityLatitude = result.coord.lat;
+            this.cityLongitude = result.coord.lon;
+
             // Latest search put in history boxes
             this.resultCity = result.name;
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
@@ -72,14 +80,14 @@ export default {
                 weather: this.resultWeather,
             })
 
-            this.submitted = true
+            this.submitted = true // PLACEHOLDER FOR LAST SAVE
         },
         AddToHistory(search) {
             this.searchHistory.unshift(search); // Lägger till element i början av array
             this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
-        ShowCityWeather(search) {
+        ShowCityBoxClick(search) {
             console.log("Showing info", search)
 
             this.weatherData.resultCity = search.city;
@@ -92,8 +100,8 @@ export default {
             if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        this.latitude = position.coords.latitude;
-                        this.longitude = position.coords.longitude;
+                        this.currentLatitude = position.coords.latitude;
+                        this.currentLongitude = position.coords.longitude;
                     },
                     (error) => {
                         alert("Error getting location:", error.message)
