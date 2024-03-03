@@ -9,15 +9,13 @@
     </p>
     <div class="search-history">
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+            <li v-for="search in searchHistory" :key="search" class="history-box"
+                @click="ShowCityBoxClick(search)">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
         </ul>
     </div>
     <div v-show="submitted">
-        <DisplayCityWeather
-        :weatherData="weatherData"
-        :apiKey="apiKey"
-        :cityLatitude="cityLatitude"
-        :cityLongitude="cityLongitude" />
+        <DisplayCityWeather :weatherData="weatherData" :apiKey="apiKey" :cityLatitude="cityLatitude"
+            :cityLongitude="cityLongitude" />
     </div>
 </template>
 
@@ -54,8 +52,6 @@ export default {
             const result = await response.json();
             this.city = "";
 
-            console.log(result)
-
             if (result.cod != "200") { //Felhantering så att inte undefined blir inlagt i historik-array. 
                 alert(`Error: ${result.cod}, ${result.message} \nPlease try again!`);
                 return;
@@ -78,6 +74,8 @@ export default {
                 city: this.resultCity,
                 temperature: this.resultTemp,
                 weather: this.resultWeather,
+                latitude: this.cityLatitude,
+                longitude: this.cityLongitude
             })
 
             this.submitted = true // PLACEHOLDER FOR LAST SAVE
@@ -88,15 +86,11 @@ export default {
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
         ShowCityBoxClick(search) {
-            console.log("Showing info", search)
-
-            this.city = search.city;
-            this.FetchWeather();
-            this.city = null;
-            
-            // this.weatherData.resultCity = search.city;
-            // this.weatherData.resultTemp = search.temperature;
-            // this.weatherData.resultWeather = search.weather;
+            this.weatherData.resultCity = search.city;
+            this.weatherData.resultTemp = search.temperature;
+            this.weatherData.resultWeather = search.weather;
+            this.cityLatitude = search.latitude;
+            this.cityLongitude = search.longitude;
 
             this.submitted = true;
         },
