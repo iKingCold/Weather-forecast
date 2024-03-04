@@ -74,9 +74,16 @@ export default {
             this.submitted = true
         },
         AddToHistory(search) {
-            this.searchHistory.unshift(search); // Lägger till element i början av array
-            this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
-            localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
+            const cityExists = this.searchHistory.some(city => city.city === search.city);
+
+            if (!cityExists) {
+                this.searchHistory.unshift(search); // Lägger till element i början av array
+                this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
+            }
+            else {
+                return;
+            }
         },
         ShowCityBoxClick(search) {
             this.resultCity = search.city;
