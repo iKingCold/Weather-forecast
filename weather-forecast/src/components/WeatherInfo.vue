@@ -9,13 +9,13 @@
     </p>
     <div class="search-history">
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box"
-                @click="ShowCityBoxClick(search)">{{ search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">{{
+        search.city }} - {{ search.temperature }} {{ search.weather }}</li>
         </ul>
     </div>
     <div v-show="submitted">
-        <DisplayCityWeather :weatherData="weatherData" :apiKey="apiKey" :cityLatitude="cityLatitude"
-            :cityLongitude="cityLongitude" />
+        <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
+            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" />
     </div>
 </template>
 
@@ -32,14 +32,12 @@ export default {
             city: null,
             submitted: false,
 
-            weatherData: {
-                resultCity: null,
-                resultTemp: null,
-                resultWeather: null,
-            },
+            resultCity: null,
+            resultTemp: null,
+            resultWeather: null,
 
-            currentLatitude: null,    // För senare anrop av långtids-prognos
-            currentLongitude: null,   // För senare anrop av långtids-prognos
+            currentLatitude: null,
+            currentLongitude: null,
             cityLatitude: null,
             cityLongitude: null,
             searchHistory: JSON.parse(localStorage.getItem('searchHistory')) || [], //Hämtar data från LocalStorage, är LocalStorage tom, gör arrayen tom. 
@@ -57,11 +55,6 @@ export default {
                 return;
             }
 
-            // Displays in 'DisplayCityWeather' component
-            this.weatherData.resultCity = result.name;
-            this.weatherData.resultTemp = `${Math.round(result.main.temp)}°C`;
-            this.weatherData.resultWeather = result.weather[0].description;
-
             this.cityLatitude = result.coord.lat;
             this.cityLongitude = result.coord.lon;
 
@@ -78,7 +71,7 @@ export default {
                 longitude: this.cityLongitude
             })
 
-            this.submitted = true // PLACEHOLDER FOR LAST SAVE
+            this.submitted = true
         },
         AddToHistory(search) {
             this.searchHistory.unshift(search); // Lägger till element i början av array
@@ -86,9 +79,9 @@ export default {
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
         ShowCityBoxClick(search) {
-            this.weatherData.resultCity = search.city;
-            this.weatherData.resultTemp = search.temperature;
-            this.weatherData.resultWeather = search.weather;
+            this.resultCity = search.city;
+            this.resultTemp = search.temperature;
+            this.resultWeather = search.weather;
             this.cityLatitude = search.latitude;
             this.cityLongitude = search.longitude;
 

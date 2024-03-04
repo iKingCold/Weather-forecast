@@ -1,8 +1,8 @@
 <template>
     <div id="weather-data">
-        <p>{{ weatherData.resultCity }}</p>
-        <p>{{ weatherData.resultTemp }}</p>
-        <p>{{ weatherData.resultWeather }}</p>
+        <p>{{ resultCity }}</p>
+        <p>{{ resultTemp }}</p>
+        <p>{{ resultWeather }}</p>
 
         <button @click="GetSevenDayForecast">7 day forecast</button>
         <div v-if="sevenDayForecast">
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-    props: ['weatherData', 'apiKey', 'cityLatitude', 'cityLongitude'],
+    props: ['resultCity', 'resultTemp', 'resultWeather', 'apiKey', 'cityLatitude', 'cityLongitude'],
     data() {
         return {
             sevenDayForecast: null,
