@@ -27,7 +27,19 @@ p {
     height: 120px;
     width: 300px;
     background: rgba(61, 242, 255, 0.7);
-    border-radius: 10px;;
+    border-radius: 10px;
+    gap: 5px;
+}
+
+.forecast{
+    display: flex;
+    flex-direction: column;
+}
+.forecast-day{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 #weather-data {

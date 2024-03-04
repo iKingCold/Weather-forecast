@@ -1,16 +1,18 @@
 <template>
     <div id="weather-data">
-        <p>{{ resultCity }}</p>
-        <p>{{ resultTemp }}</p>
-        <p>{{ resultWeather }}</p>
+        <p class="cityName">{{ resultCity }}</p>
+        <p class="cityTemp">{{ resultTemp }}</p>
+        <p class="cityWeather">{{ resultWeather }}</p>
 
         <!-- <button @click="GetSevenDayForecast">7 day forecast</button> -->
         <div v-if="sevenDayForecast">
             <h2>7 day forecast</h2>
-            <ul>
-                <li v-for="day in sevenDayForecast.daily" :key="day.dt">
-                    {{ new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'long' }) }} - {{
-            (day.temp.day).toFixed() }}°C - {{ day.weather[0].description }}</li>
+            <ul class="forecast">
+                <li class="forecast-day" v-for="day in sevenDayForecast.daily" :key="day.dt">
+                    <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, {weekday: 'long'}) }}</span>
+                    <span class="forecast-temp">{{ (day.temp.day).toFixed() }}°C</span>
+                    <span class="forecast-weather">{{ day.weather[0].description }}</span>
+                </li>
             </ul>
         </div>
     </div>

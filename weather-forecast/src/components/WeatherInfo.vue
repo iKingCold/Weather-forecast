@@ -6,8 +6,11 @@
     <GeoLocation />
     <div class="search-history">
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">{{
-        search.city }} - {{ search.temperature }} {{ search.weather }}</li>
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">
+                <span class="history-city">{{ search.city }}</span>
+                <span class="history-temp">{{ search.temperature }}</span>
+                <span class="history-weather">{{ search.weather }}</span>
+            </li>
         </ul>
     </div>
     <div v-show="submitted">
@@ -89,7 +92,6 @@ export default {
         async ShowCityBoxClick(search) {
             this.city = search.city;
             await this.FetchWeather();
-            this.$refs.childRef.GetSevenDayForecast();
             this.city = null;
 
             this.submitted = true;
