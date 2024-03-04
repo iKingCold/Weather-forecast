@@ -68,6 +68,10 @@ export default {
             })
 
             this.submitted = true
+
+            this.$nextTick(() => {
+                this.$refs.childRef.GetSevenDayForecast();
+            });
         },
         AddToHistory(search) {
             const cityExists = this.searchHistory.some(city => city.city === search.city);
