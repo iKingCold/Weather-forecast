@@ -3,10 +3,7 @@
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
     </form>
-    <button @click="GetCurrentPosition">Current position</button>
-    <p v-if="currentLatitude !== null && currentLongitude !== null">
-        Current position: LAT: {{ currentLatitude }}, LON: {{ currentLongitude }}
-    </p>
+    <GeoLocation />
     <div class="search-history">
         <ul class="history-boxes">
             <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">{{
@@ -21,9 +18,10 @@
 
 <script>
 import DisplayCityWeather from './DisplayCityWeather.vue';
+import GeoLocation from './GeoLocation.vue';
 
 export default {
-    components: { DisplayCityWeather },
+    components: { DisplayCityWeather, GeoLocation },
 
     data() {
         return {
@@ -87,25 +85,10 @@ export default {
         ShowCityBoxClick(search) {
             this.city = search.city;
             this.FetchWeather();
+            this.city = null;
 
             this.submitted = true;
         },
-        GetCurrentPosition() {
-            if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        this.currentLatitude = position.coords.latitude;
-                        this.currentLongitude = position.coords.longitude;
-                    },
-                    (error) => {
-                        alert("Error getting location:", error.message)
-                    }
-                );
-            }
-            else {
-                alert("Geolocation not supported by this browser");
-            }
-        }
     }
 }
 </script>
