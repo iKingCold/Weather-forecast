@@ -67,8 +67,6 @@ export default {
                 city: this.resultCity,
                 temperature: this.resultTemp,
                 weather: this.resultWeather,
-                latitude: this.cityLatitude,
-                longitude: this.cityLongitude
             })
 
             this.submitted = true
@@ -79,18 +77,16 @@ export default {
             if (!cityExists) {
                 this.searchHistory.unshift(search); // Lägger till element i början av array
                 this.searchHistory = this.searchHistory.slice(0, 3); // Begränsar antalet element i array till 3, som visas på skärmen. 
-                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
             }
             else {
-                return;
+                let index = this.searchHistory.findIndex(city => city.city === search.city);
+                this.searchHistory.unshift(this.searchHistory.splice(index, 1)[0])
             }
+            localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
         ShowCityBoxClick(search) {
-            this.resultCity = search.city;
-            this.resultTemp = search.temperature;
-            this.resultWeather = search.weather;
-            this.cityLatitude = search.latitude;
-            this.cityLongitude = search.longitude;
+            this.city = search.city;
+            this.FetchWeather();
 
             this.submitted = true;
         },
