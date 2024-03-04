@@ -12,7 +12,7 @@
     </div>
     <div v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" />
+            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" ref="childRef"/>
     </div>
 </template>
 
@@ -82,9 +82,10 @@ export default {
             }
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
-        ShowCityBoxClick(search) {
+        async ShowCityBoxClick(search) {
             this.city = search.city;
-            this.FetchWeather();
+            await this.FetchWeather();
+            this.$refs.childRef.GetSevenDayForecast();
             this.city = null;
 
             this.submitted = true;

@@ -4,7 +4,7 @@
         <p>{{ resultTemp }}</p>
         <p>{{ resultWeather }}</p>
 
-        <button @click="GetSevenDayForecast">7 day forecast</button>
+        <!-- <button @click="GetSevenDayForecast">7 day forecast</button> -->
         <div v-if="sevenDayForecast">
             <h2>7 day forecast</h2>
             <ul>
