@@ -3,7 +3,10 @@
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
     </form>
-    <GeoLocation />
+    <button @click="this.$refs.childRef.GetCurrentPosition(this.cityLatitude, this.cityLongitude)">Current position</button>
+    <p v-if="cityLatitude !== null && cityLongitude !== null">
+        Current position: LAT: {{ this.cityLatitude }}, LON: {{ this.cityLongitude }}
+    </p>
     <div class="search-history">
         <ul class="history-boxes">
             <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">
@@ -16,16 +19,15 @@
     </div>
     <div v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" ref="childRef"/>
+            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" ref="childRef" />
     </div>
 </template>
 
 <script>
 import DisplayCityWeather from './DisplayCityWeather.vue';
-import GeoLocation from './GeoLocation.vue';
 
 export default {
-    components: { DisplayCityWeather, GeoLocation },
+    components: { DisplayCityWeather },
 
     data() {
         return {
@@ -77,7 +79,7 @@ export default {
             this.submitted = true
 
             this.$nextTick(() => {
-                this.$refs.childRef.GetSevenDayForecast();
+                this.$refs.childRef.GetSevenDayForecast(this.cityLatitude, this.cityLongitude);
             });
         },
         AddToHistory(search) {

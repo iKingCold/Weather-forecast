@@ -27,19 +27,51 @@ export default {
     data() {
         return {
             sevenDayForecast: null,
+            geoCity: null,
             imageUrl: "https://openweathermap.org/img/wn/",
             url: "https://api.openweathermap.org/data/2.5/onecall",
+            reverseGeoUrl: "http://api.openweathermap.org/geo/1.0/reverse",
              
         }
     },
     methods: {
-        async GetSevenDayForecast() {
-
-            const forecastUrl = `${this.url}?lat=${this.cityLatitude}&lon=${this.cityLongitude}&exclude=minutely&appid=${this.apiKey}&units=metric`
+        async GetSevenDayForecast(lat, lon) {
+            const forecastUrl = `${this.url}?lat=${lat}&lon=${lon}&exclude=minutely&appid=${this.apiKey}&units=metric`
             const forecastResponse = await fetch(forecastUrl);
             const forecastResult = await forecastResponse.json();
 
             this.sevenDayForecast = forecastResult;
+        },
+        GetCurrentPosition(lat, lon) {
+            if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        lat = position.coords.latitude;
+                        lon = position.coords.longitude;
+
+                        console.log("test i if-sats:", lat, lon) // DEBUG PURPOSE
+
+                        this.GetGeoCity(lat, lon);      // DEBUG PURPOSE
+                        this.GetSevenDayForecast(lat, lon);
+                    },
+                    (error) => {
+                        alert("Error getting location:", error.message)
+                    }
+                );
+            }
+            else {
+                alert("Geolocation not supported by this browser");
+            }
+        },
+        async GetGeoCity(lat, lon) {
+            const geocodingUrl = `${this.reverseGeoUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}`;
+            const geoResponse = await fetch(geocodingUrl);
+            const geoResult = await geoResponse.json();
+
+            const geoCityFound = geoResult[0].name;
+            this.geoCity = geoCityFound;
+            
+            console.log("Hittad stad: ", this.geoCity) // DEBUG PURPOSE
         },
     },
 }
