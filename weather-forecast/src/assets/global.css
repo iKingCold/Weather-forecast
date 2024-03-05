@@ -27,26 +27,36 @@ p {
     height: 120px;
     width: 300px;
     background: rgba(61, 242, 255, 0.7);
+    border: 1px solid #4e4e4e;
     border-radius: 10px;
+    box-shadow: 0 0 2px black;
     gap: 5px;
 }
-
-.forecast{
+.forecast-div{
     display: flex;
     flex-direction: column;
-}
-.forecast-day{
-    display: flex;
-    justify-content: center;
     align-items: center;
+}
+.forecast-list{
+    width: 1000px;
+}
+
+.forecast-day{
+    background: rgba(61, 242, 255, 0.7);
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #4e4e4e;
+    box-shadow: 0 0 2px black;
+    margin: 5px;
+    padding: 5px;
     gap: 5px;
 }
-
-#weather-data {
-    background: rgba(221, 221, 221, 0.6);
-    height: 100vh;
+.date-section{
+    text-align: start;
+    border-right: 1px solid #4e4e4e;
+    width: 10rem;
 }
-
 .container {
     background: url('@/assets/sky-background.webp');
     background-size: cover;

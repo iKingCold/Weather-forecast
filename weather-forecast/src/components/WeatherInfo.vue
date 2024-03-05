@@ -66,8 +66,6 @@ export default {
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.resultWeather = result.weather[0].description;
             this.weatherIcon = "https://openweathermap.org/img/wn/" + result.weather[0].icon + ".png";
-            console.log(result);
-           
 
             this.AddToHistory({
                 city: this.resultCity,
@@ -98,7 +96,6 @@ export default {
         async ShowCityBoxClick(search) {
             this.city = search.city;
             await this.FetchWeather();
-            this.city = null;
 
             this.submitted = true;
         },
