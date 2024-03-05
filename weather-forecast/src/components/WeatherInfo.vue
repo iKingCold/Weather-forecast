@@ -10,6 +10,7 @@
                 <span class="history-city">{{ search.city }}</span>
                 <span class="history-temp">{{ search.temperature }}</span>
                 <span class="history-weather">{{ search.weather }}</span>
+                <span class="weather-icon"><img :src="search.weatherIcon"></span>
             </li>
         </ul>
     </div>
@@ -36,6 +37,7 @@ export default {
             resultCity: null,
             resultTemp: null,
             resultWeather: null,
+            weatherIcon: null,
 
             currentLatitude: null,
             currentLongitude: null,
@@ -63,11 +65,15 @@ export default {
             this.resultCity = result.name;
             this.resultTemp = `${Math.round(result.main.temp)}°C`;
             this.resultWeather = result.weather[0].description;
+            this.weatherIcon = "https://openweathermap.org/img/wn/" + result.weather[0].icon + ".png";
+            console.log(result);
+           
 
             this.AddToHistory({
                 city: this.resultCity,
                 temperature: this.resultTemp,
                 weather: this.resultWeather,
+                weatherIcon: this.weatherIcon,
             })
 
             this.submitted = true
