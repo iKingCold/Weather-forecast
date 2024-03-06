@@ -45,25 +45,42 @@ export default {
         };
     },
     methods: {
-        async FetchWeather() {
-            const url = `${this.apiUrl}?appid=${this.apiKey}&q=${this.city}&units=metric`
+        async MakeApiCall(city) {
+            const url = `${this.apiUrl}?appid=${this.apiKey}&q=${city}&units=metric`
             const response = await fetch(url);
             const result = await response.json();
-            this.city = "";
 
             if (result.cod != "200") { //Felhantering så att inte undefined blir inlagt i historik-array. 
                 alert(`Error: ${result.cod}, ${result.message} \nPlease try again!`);
                 return;
             }
 
-            this.cityLatitude = result.coord.lat;
-            this.cityLongitude = result.coord.lon;
+            console.log("testar MakeApiCall:", result);
+
+            return {
+                city: result.name,
+                temperature: `${Math.round(result.main.temp)}°C`,
+                weatherData: result.weather[0].description,
+                weatherIcon: "https://openweathermap.org/img/wn/" + result.weather[0].icon + ".png",
+                coordinates: result.coord,
+            };
+        },
+        async FetchWeather() {
+            let result = await this.MakeApiCall(this.city);
+
+            console.log("Test i FetchWeather: ", result)
+
+            this.cityLatitude = result.coordinates.lat;
+            this.cityLongitude = result.coordinates.lon;
+
+            console.log("debug lat: ", this.cityLatitude);
+            console.log("debug lon ", this.cityLongitude);
 
             // Latest search put in history boxes
-            this.resultCity = result.name;
-            this.resultTemp = `${Math.round(result.main.temp)}°C`;
-            this.resultWeather = result.weather[0].description;
-            this.weatherIcon = "https://openweathermap.org/img/wn/" + result.weather[0].icon + ".png";
+            this.resultCity = result.city;
+            this.resultTemp = result.temperature;
+            this.resultWeather = result.weatherData;
+            this.weatherIcon = result.weatherIcon;
 
             this.AddToHistory({
                 city: this.resultCity,
@@ -100,20 +117,10 @@ export default {
             await this.FetchWeather();
         },
         async UpdateHistoryData() {
-
             for (let i = 0; i < this.searchHistory.length; i++) {
                 let city = this.searchHistory[i].city;
-
-                const url = `${this.apiUrl}?appid=${this.apiKey}&q=${city}&units=metric`
-                const response = await fetch(url);
-                const result = await response.json();
-
-                this.searchHistory[i] = {
-                    city: result.name,
-                    temperature: `${Math.round(result.main.temp)}°C`,
-                    weather: result.weather[0].description,
-                    weatherIcon: `https://openweathermap.org/img/wn/${result.weather[0].icon}.png`,
-                };
+                let result = await this.MakeApiCall(city);
+                this.searchHistory[i] = result;
             }
         }
     },
@@ -121,8 +128,8 @@ export default {
         this.UpdateHistoryData(); 
 
         setInterval(() => {
-           this.UpdateHistoryData(); 
-           console.log("update test");
+            this.UpdateHistoryData();
+            console.log("update test");
         }, 300000);
     }
 }
