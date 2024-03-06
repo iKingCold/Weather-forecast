@@ -10,8 +10,12 @@
                 <li class="forecast-day" v-for="(day, index) in sevenDayForecast.daily" :key="day.dt">
                     <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
                     <section class="date-section">
-                        <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, {weekday: 'long'}) }}</h3>
-                        <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+                        <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt *
+            1000).toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
+                        <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, {
+            month:
+                'long', day: 'numeric'
+        }) }}</span>
                     </section>
                     <i class="fa-solid fa-temperature-high"></i>
                     <section class="temp-section">
@@ -45,7 +49,7 @@ export default {
             imageUrl: "https://openweathermap.org/img/wn/",
             url: "https://api.openweathermap.org/data/2.5/onecall",
             reverseGeoUrl: "http://api.openweathermap.org/geo/1.0/reverse",
-             
+
         }
     },
     methods: {
@@ -65,8 +69,6 @@ export default {
                         let lat = position.coords.latitude;
                         let lon = position.coords.longitude;
 
-                        console.log("test i if-sats:", lat, lon) // DEBUG PURPOSE
-
                         this.GetGeoCity(lat, lon);
                         this.GetSevenDayForecast(lat, lon);
                     },
@@ -85,7 +87,7 @@ export default {
             const geoResult = await geoResponse.json();
 
             this.geoCity = geoResult[0].name;
-            
+
             this.sendGeoCity(this.geoCity); // sendGeoCity() är i själva verket HandleGeoCity-metoden i parent-comp (egen anteckning för att fatta)
         },
     },

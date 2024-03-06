@@ -16,7 +16,8 @@
     </div>
     <div v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity" ref="childRef" />
+            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity"
+            ref="childRef" />
     </div>
 </template>
 
@@ -38,8 +39,6 @@ export default {
             resultWeather: null,
             weatherIcon: null,
 
-            currentLatitude: null,
-            currentLongitude: null,
             cityLatitude: null,
             cityLongitude: null,
             searchHistory: JSON.parse(localStorage.getItem('searchHistory')) || [], //Hämtar data från LocalStorage, är LocalStorage tom, gör arrayen tom. 
@@ -95,13 +94,34 @@ export default {
         async ShowCityBoxClick(search) {
             this.city = search.city;
             await this.FetchWeather();
-
-            this.submitted = true;
         },
         async HandleGeoCity(geoCity) {
             this.city = geoCity;
             await this.FetchWeather();
         },
+        async UpdateHistoryData() {
+
+            for (let i = 0; i < this.searchHistory.length; i++) {
+                let city = this.searchHistory[i].city;
+
+                const url = `${this.apiUrl}?appid=${this.apiKey}&q=${city}&units=metric`
+                const response = await fetch(url);
+                const result = await response.json();
+
+                this.searchHistory[i] = {
+                    city: result.name,
+                    temperature: `${Math.round(result.main.temp)}°C`,
+                    weather: result.weather[0].description,
+                    weatherIcon: `https://openweathermap.org/img/wn/${result.weather[0].icon}.png`,
+                };
+            }
+        }
+    },
+    mounted() {
+        setInterval(() => {
+           this.UpdateHistoryData(); 
+           console.log("update test");
+        }, 300000);
     }
 }
 </script>
