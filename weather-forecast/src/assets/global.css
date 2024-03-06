@@ -16,6 +16,9 @@ p {
     margin: 0 5px;
     font-size: 1.5rem;
 }
+.fa-cloud-meatball, .fa-cloud-rain{
+    font-size: 1.4625rem;
+}
 
 .history-boxes {
     display: flex;
@@ -65,7 +68,25 @@ p {
     display: flex;
     flex-direction: column;
     text-align: start;
-    width: 10rem;
+    width: 11rem;
+}
+.rain-section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+.rain-section h3{
+    width: 11rem;
+    text-align: start;
+}
+.rain-section h4{
+    width: 11rem;
+    text-align: start;
+}
+.wind-section{
+    display: flex;
+    gap: 10px;
 }
 .container {
     background: url('@/assets/sky-background.webp');

@@ -18,12 +18,17 @@
                         <span class="forecast-maxtemp">Max: <strong>{{ (day.temp.max).toFixed() }}</strong>°C</span>
                         <span class="forecast-mintemp">Min: <strong>{{ (day.temp.min).toFixed() }}</strong>°C</span>
                     </section>
-                    <i class="fa-solid fa-cloud-rain"></i>
                     <section class="rain-section">
-                        <h3 v-if="'rain' in day">{{ day.rain }} mm</h3>
-                        <h3 v-else>0 mm</h3>
+                        <h3 class="weather" v-if="'rain' in day"><i class="fa-solid fa-cloud-rain"></i> {{ day.rain }} mm</h3>
+                        <h3 class="weather" v-else-if="'snow' in day"><i class="fa-solid fa-cloud-meatball"></i> {{ day.snow }} mm</h3>
+                        <h3 class="weather" v-else><i class="fa-solid fa-cloud"></i> 0 mm</h3>
+                        <h4>{{ day.weather[0].description }}</h4>
                     </section>
-                    <span class="forecast-weather">{{ day.weather[0].description }}</span>
+                    
+                    <section class="wind-section">
+                        <i class="fa-solid fa-wind"></i>
+                        <p>WIND SVG!!!</p>
+                    </section>
                 </li>
             </ul>
         </div>
