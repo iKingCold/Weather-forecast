@@ -118,6 +118,8 @@ export default {
         }
     },
     mounted() {
+        this.UpdateHistoryData(); 
+
         setInterval(() => {
            this.UpdateHistoryData(); 
            console.log("update test");

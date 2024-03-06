@@ -86,8 +86,18 @@ p {
 }
 .wind-section{
     display: flex;
+    align-items: center;
     gap: 10px;
 }
+.fa-wind{
+    font-size: 1.4rem;
+}
+.wind-svg{
+    margin-left: auto;
+    justify-self: flex-end;
+    justify-items: flex-end;
+}
+
 .container {
     background: url('@/assets/sky-background.webp');
     background-size: cover;
