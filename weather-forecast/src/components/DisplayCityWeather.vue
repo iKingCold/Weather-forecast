@@ -42,12 +42,12 @@ export default {
 
             this.sevenDayForecast = forecastResult;
         },
-        GetCurrentPosition(lat, lon) {
+        GetCurrentPosition() {
             if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        lat = position.coords.latitude;
-                        lon = position.coords.longitude;
+                        let lat = position.coords.latitude;
+                        let lon = position.coords.longitude;
 
                         console.log("test i if-sats:", lat, lon) // DEBUG PURPOSE
 

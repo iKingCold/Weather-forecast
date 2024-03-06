@@ -3,8 +3,8 @@
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
     </form>
-    <button @click="this.$refs.childRef.GetCurrentPosition(this.cityLatitude, this.cityLongitude)">Current position</button>
-    <p v-if="cityLatitude !== null && cityLongitude !== null">
+    <button @click="this.$refs.childRef.GetCurrentPosition(); submitted = true;">Current position</button>
+    <p v-if="currentLatitude !== null && currentLongitude !== null">
         Current position: LAT: {{ this.cityLatitude }}, LON: {{ this.cityLongitude }}
     </p>
     <div class="search-history">
