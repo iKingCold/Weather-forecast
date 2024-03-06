@@ -12,6 +12,10 @@ p {
     color: red;
     font-weight: bold;
 }
+.fa-temperature-high{
+    margin: 0 5px;
+    font-size: 1.5rem;
+}
 
 .history-boxes {
     display: flex;
@@ -55,6 +59,12 @@ p {
 .date-section{
     text-align: start;
     border-right: 1px solid #4e4e4e;
+    width: 10rem;
+}
+.temp-section{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
     width: 10rem;
 }
 .container {

@@ -13,7 +13,16 @@
                         <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, {weekday: 'long'}) }}</h3>
                         <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
                     </section>
-                    <span class="forecast-temp">{{ (day.temp.day).toFixed() }}°C</span>
+                    <i class="fa-solid fa-temperature-high"></i>
+                    <section class="temp-section">
+                        <span class="forecast-maxtemp">Max: <strong>{{ (day.temp.max).toFixed() }}</strong>°C</span>
+                        <span class="forecast-mintemp">Min: <strong>{{ (day.temp.min).toFixed() }}</strong>°C</span>
+                    </section>
+                    <i class="fa-solid fa-cloud-rain"></i>
+                    <section class="rain-section">
+                        <h3 v-if="'rain' in day">{{ day.rain }} mm</h3>
+                        <h3 v-else>0 mm</h3>
+                    </section>
                     <span class="forecast-weather">{{ day.weather[0].description }}</span>
                 </li>
             </ul>
@@ -39,6 +48,8 @@ export default {
             const forecastUrl = `${this.url}?lat=${lat}&lon=${lon}&exclude=minutely&appid=${this.apiKey}&units=metric`
             const forecastResponse = await fetch(forecastUrl);
             const forecastResult = await forecastResponse.json();
+
+            console.log(forecastResult);
 
             this.sevenDayForecast = forecastResult;
         },
