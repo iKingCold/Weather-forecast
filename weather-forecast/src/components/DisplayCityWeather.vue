@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    props: ['resultCity', 'resultTemp', 'resultWeather', 'apiKey', 'cityLatitude', 'cityLongitude'],
+    props: ['resultCity', 'resultTemp', 'resultWeather', 'apiKey', 'cityLatitude', 'cityLongitude', 'sendGeoCity'],
     data() {
         return {
             sevenDayForecast: null,
@@ -51,7 +51,7 @@ export default {
 
                         console.log("test i if-sats:", lat, lon) // DEBUG PURPOSE
 
-                        this.GetGeoCity(lat, lon);      // DEBUG PURPOSE
+                        this.GetGeoCity(lat, lon);
                         this.GetSevenDayForecast(lat, lon);
                     },
                     (error) => {
@@ -68,10 +68,9 @@ export default {
             const geoResponse = await fetch(geocodingUrl);
             const geoResult = await geoResponse.json();
 
-            const geoCityFound = geoResult[0].name;
-            this.geoCity = geoCityFound;
+            this.geoCity = geoResult[0].name;
             
-            console.log("Hittad stad: ", this.geoCity) // DEBUG PURPOSE
+            this.sendGeoCity(this.geoCity); // sendGeoCity() är i själva verket HandleGeoCity-metoden i parent-comp (egen anteckning för att fatta)
         },
     },
 }

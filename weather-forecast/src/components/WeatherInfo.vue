@@ -3,10 +3,7 @@
         <label for="city">Enter a city: </label>
         <input type="text" name="city" id="city" v-model="city">
     </form>
-    <button @click="this.$refs.childRef.GetCurrentPosition(); submitted = true;">Current position</button>
-    <p v-if="currentLatitude !== null && currentLongitude !== null">
-        Current position: LAT: {{ this.cityLatitude }}, LON: {{ this.cityLongitude }}
-    </p>
+    <button @click="$refs.childRef.GetCurrentPosition(); submitted = true;">Current position</button>
     <div class="search-history">
         <ul class="history-boxes">
             <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">
@@ -19,7 +16,7 @@
     </div>
     <div v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" ref="childRef" />
+            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity" ref="childRef" />
     </div>
 </template>
 
@@ -100,6 +97,10 @@ export default {
             await this.FetchWeather();
 
             this.submitted = true;
+        },
+        async HandleGeoCity(geoCity) {
+            this.city = geoCity;
+            await this.FetchWeather();
         },
     }
 }
