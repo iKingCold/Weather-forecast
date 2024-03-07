@@ -1,24 +1,33 @@
 <template>
-    <form id="weather-form" @submit.prevent="FetchWeather">
-        <label for="city">Enter a city: </label>
-        <input type="text" name="city" id="city" v-model="city">
-    </form>
-    <button @click="$refs.childRef.GetCurrentPosition(); submitted = true;">Current position</button>
-    <div class="search-history">
+    <header>
+        <h1>Calås & Flink's Weather App</h1>
+    </header>
+    <section class="top">
+        <form id="weather-form" @submit.prevent="FetchWeather">
+            <label for="city-input"></label>
+            <input class="input-group" type="text" id="city-input" v-model="city" autocomplete="off" placeholder="Enter city:">
+            <input class="input-group" id="search-button" type="submit" value="Search!">
+        </form>
+        <button class="input-group" id="current-pos-button" @click="$refs.childRef.GetCurrentPosition(); submitted = true;"><i class="fa-solid fa-location-dot"></i></button>
+    </section>
+    <section class="search-history">
+        <h2 v-show="this.searchHistory.length > 0">Recent locations</h2>
         <ul class="history-boxes">
             <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">
-                <span class="history-city">{{ search.city }}</span>
-                <span class="history-temp">{{ search.temperature }}</span>
-                <span class="history-weather">{{ search.weather }}</span>
-                <span class="weather-icon"><img :src="search.weatherIcon"></span>
+                <h3 class="history-city">{{ search.city }}</h3>
+                <div class="history-temp-div">
+                    <h4 class="history-temp">{{ search.temperature }}</h4>
+                    <img :src="search.weatherIcon">
+                </div>
+                <h4>{{ search.weatherData }}</h4>
             </li>
         </ul>
-    </div>
-    <div v-show="submitted">
+    </section>
+    <section class="weather-data" v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
             :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity"
             ref="childRef" />
-    </div>
+    </section>
 </template>
 
 <script>
@@ -50,9 +59,9 @@ export default {
             const response = await fetch(url);
             const result = await response.json();
 
-            if (result.cod != "200") { //Felhantering så att inte undefined blir inlagt i historik-array. 
+            if (result.cod !== 200) { //Felhantering så att inte undefined blir inlagt i historik-array. 
                 alert(`Error: ${result.cod}, ${result.message} \nPlease try again!`);
-                return;
+                return null;
             }
 
             console.log("testar MakeApiCall:", result);
@@ -67,6 +76,11 @@ export default {
         },
         async FetchWeather() {
             let result = await this.MakeApiCall(this.city);
+            this.city = "";
+
+            if (result === null) { //Hanterar så att vi inte går vidare om sökningen misslyckades vid ApiCall.
+                return;
+            }
 
             console.log("Test i FetchWeather: ", result)
 
@@ -85,7 +99,7 @@ export default {
             this.AddToHistory({
                 city: this.resultCity,
                 temperature: this.resultTemp,
-                weather: this.resultWeather,
+                weatherData: this.resultWeather,
                 weatherIcon: this.weatherIcon,
             })
 
@@ -125,7 +139,7 @@ export default {
         }
     },
     mounted() {
-        this.UpdateHistoryData(); 
+        this.UpdateHistoryData();
 
         setInterval(() => {
             this.UpdateHistoryData();

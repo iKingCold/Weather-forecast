@@ -12,43 +12,100 @@ p {
     color: red;
     font-weight: bold;
 }
-.fa-temperature-high{
+
+header {
+    padding: 15px 0;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#weather-form {
+    display: flex;
+}
+
+#city-input {
+    width: 400px;
+}
+
+::placeholder {
+    color: black;
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+#current-pos-button,
+#search-button {
+    margin-left: 10px;
+}
+
+.input-group{
+    height: 40px;
+    font-size: 20px;
+    padding: 0 10px;
+    background-color: rgba(61, 242, 255, 0.7);
+    color: black;
+    border: 1px solid #4e4e4e;
+    border-radius: 10px;
+    box-shadow: 0 0 2px black;
+}
+
+.fa-temperature-high {
     margin: 0 5px;
     font-size: 1.5rem;
 }
-.fa-cloud-meatball, .fa-cloud-rain{
+
+.fa-cloud-meatball,
+.fa-cloud-rain {
     font-size: 1.4625rem;
+}
+
+.search-history {
+    margin: 25px;
 }
 
 .history-boxes {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin: 25px;
+    margin: 10px 25px;
 }
 
 .history-box {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 120px;
-    width: 300px;
+    width: 200px;
     background: rgba(61, 242, 255, 0.7);
     border: 1px solid #4e4e4e;
     border-radius: 10px;
     box-shadow: 0 0 2px black;
-    gap: 5px;
+    padding: 5px 15px;
+    gap: 0px;
 }
-.forecast-div{
+
+.history-temp-div {
+    display: flex;
+    align-items: center;
+}
+
+.forecast-div {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.forecast-list{
+
+.forecast-list {
     width: 1000px;
 }
 
-.forecast-day{
+.forecast-day {
     background: rgba(61, 242, 255, 0.7);
     display: flex;
     align-items: center;
@@ -59,46 +116,54 @@ p {
     padding: 5px;
     gap: 5px;
 }
-.date-section{
+
+.date-section {
     text-align: start;
     border-right: 1px solid #4e4e4e;
     width: 10rem;
 }
-.temp-section{
+
+.temp-section {
     display: flex;
     flex-direction: column;
     text-align: start;
     width: 11rem;
 }
-.rain-section{
+
+.rain-section {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 15px;
 }
-.rain-section h3{
+
+.rain-section h3 {
     width: 11rem;
     text-align: start;
 }
-.rain-section h4{
+
+.rain-section h4 {
     width: 11rem;
     text-align: start;
 }
-.wind-section{
+
+.wind-section {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.fa-wind{
+
+.fa-wind {
     font-size: 1.4rem;
 }
-.wind-svg{
+
+.wind-svg {
     margin-left: auto;
     justify-self: flex-end;
     justify-items: flex-end;
 }
 
-.container {
+main {
     background: url('@/assets/sky-background.webp');
     background-size: cover;
     background-attachment: fixed;

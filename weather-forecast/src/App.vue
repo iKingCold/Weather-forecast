@@ -1,8 +1,5 @@
 <template>
-  <div class="container">
-    <h1>Calås & Flink's Weather App</h1>
     <WeatherInfo />
-  </div>
 </template>
 
 <script>
