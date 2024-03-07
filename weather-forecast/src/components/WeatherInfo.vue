@@ -25,7 +25,7 @@
     </section>
     <section class="weather-data" v-show="submitted">
         <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity"
+            :largeIcon="largeIcon" :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity"
             ref="childRef" />
     </section>
 </template>
@@ -47,6 +47,7 @@ export default {
             resultTemp: null,
             resultWeather: null,
             weatherIcon: null,
+            largeIcon: null,
 
             cityLatitude: null,
             cityLongitude: null,
@@ -64,13 +65,12 @@ export default {
                 return null;
             }
 
-            console.log("testar MakeApiCall:", result);
-
             return {
                 city: result.name,
                 temperature: `${Math.round(result.main.temp)}°C`,
                 weatherData: result.weather[0].description,
                 weatherIcon: "https://openweathermap.org/img/wn/" + result.weather[0].icon + ".png",
+                largeIcon: "https://openweathermap.org/img/wn/" + result.weather[0].icon + "@2x.png",
                 coordinates: result.coord,
             };
         },
@@ -82,19 +82,15 @@ export default {
                 return;
             }
 
-            console.log("Test i FetchWeather: ", result)
-
             this.cityLatitude = result.coordinates.lat;
             this.cityLongitude = result.coordinates.lon;
-
-            console.log("debug lat: ", this.cityLatitude);
-            console.log("debug lon ", this.cityLongitude);
 
             // Latest search put in history boxes
             this.resultCity = result.city;
             this.resultTemp = result.temperature;
             this.resultWeather = result.weatherData;
-            this.weatherIcon = result.weatherIcon;
+            this.weatherIcon = result.weatherIcon
+            this.largeIcon = result.largeIcon
 
             this.AddToHistory({
                 city: this.resultCity,
@@ -143,7 +139,6 @@ export default {
 
         setInterval(() => {
             this.UpdateHistoryData();
-            console.log("update test");
         }, 300000);
     }
 }

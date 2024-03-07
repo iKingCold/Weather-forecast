@@ -1,9 +1,14 @@
 <template>
-    <div class="current-weather">
-        <h2>Current weather</h2>
-        <p class="cityName">{{ resultCity }}</p>
-        <p class="cityTemp">{{ resultTemp }}</p>
-        <p class="cityWeather">{{ resultWeather }}</p>
+    <div class="current-weather" v-if="resultCity">
+        <div class="current-icon-div">
+            <img :src="`${largeIcon}`">
+        </div>
+        <div class="current-weather-div">
+            <h2>Current weather</h2>
+            <h3 class="cityName">{{ resultCity }}</h3>
+            <h4 class="cityTemp">{{ resultTemp }}</h4>
+            <h4 class="cityWeather">{{ resultWeather }}</h4>
+        </div>
     </div>
     <div class="forecast-div" v-if="sevenDayForecast">
         <h2>7 day forecast</h2>
@@ -37,7 +42,7 @@
 
 <script>
 export default {
-    props: ['resultCity', 'resultTemp', 'resultWeather', 'apiKey', 'cityLatitude', 'cityLongitude', 'sendGeoCity'],
+    props: ['resultCity', 'resultTemp', 'resultWeather', 'largeIcon', 'apiKey', 'cityLatitude', 'cityLongitude', 'sendGeoCity'],
     data() {
         return {
             sevenDayForecast: null,
@@ -45,7 +50,6 @@ export default {
             imageUrl: "https://openweathermap.org/img/wn/",
             url: "https://api.openweathermap.org/data/2.5/onecall",
             reverseGeoUrl: "http://api.openweathermap.org/geo/1.0/reverse",
-
         }
     },
     methods: {
@@ -53,8 +57,6 @@ export default {
             const forecastUrl = `${this.url}?lat=${lat}&lon=${lon}&exclude=minutely&appid=${this.apiKey}&units=metric`
             const forecastResponse = await fetch(forecastUrl);
             const forecastResult = await forecastResponse.json();
-
-            console.log(forecastResult);
 
             this.sevenDayForecast = forecastResult;
         },
