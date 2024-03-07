@@ -68,6 +68,10 @@ header {
     margin: 25px;
 }
 
+.search-history h2 {
+    font-size: 1.1rem;
+}
+
 .history-boxes {
     display: flex;
     justify-content: center;
@@ -82,7 +86,7 @@ header {
     align-items: flex-start;
     height: 120px;
     width: 200px;
-    background: rgba(61, 242, 255, 0.7);
+    background: rgba(61, 242, 255, 0.7); /* Ändra färg för visuell separation? */
     border: 1px solid #4e4e4e;
     border-radius: 10px;
     box-shadow: 0 0 2px black;

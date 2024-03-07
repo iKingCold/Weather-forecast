@@ -32,17 +32,22 @@
                 </section>
                 <section class="wind-section">
                     <i class="fa-solid fa-wind"></i>
-                    <h4>{{ day.wind_speed }} m/s</h4>
+                    <h4>{{ day.wind_speed.toFixed() }} m/s</h4>
+                    <div class="wind-svg">
+                        <SvgArrow :windDirection="day.wind_deg - 180" />
+                    </div>
                 </section>
-                <p class="wind-svg">SVG!!!</p>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
+import SvgArrow from './SvgArrow.vue';
+
 export default {
     props: ['resultCity', 'resultTemp', 'resultWeather', 'largeIcon', 'apiKey', 'cityLatitude', 'cityLongitude', 'sendGeoCity'],
+    components: { SvgArrow },
     data() {
         return {
             sevenDayForecast: null,
