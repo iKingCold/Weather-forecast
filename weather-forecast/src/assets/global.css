@@ -184,15 +184,13 @@ header {
     align-items: center;
     gap: 10px;
 }
+.wind-section h4{
+    width: 3.2rem;
+    text-align: start;
+}
 
 .fa-wind {
     font-size: 1.4rem;
-}
-
-.wind-svg {
-    margin-left: auto;
-    justify-self: flex-end;
-    justify-items: flex-end;
 }
 
 main {
@@ -200,4 +198,12 @@ main {
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
+}
+.svg-div{
+    display: flex;
+    width: 40px;
+    height: 40px;
+    background: url('@/assets/compass.jpg');
+    align-items: center;
+    justify-content: center;
 }

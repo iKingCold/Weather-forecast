@@ -33,9 +33,7 @@
                 <section class="wind-section">
                     <i class="fa-solid fa-wind"></i>
                     <h4>{{ day.wind_speed.toFixed() }} m/s</h4>
-                    <div class="wind-svg">
-                        <SvgArrow :windDirection="day.wind_deg - 180" />
-                    </div>
+                    <SvgArrow :windDirection="day.wind_deg - 180" />
                 </section>
             </li>
         </ul>
