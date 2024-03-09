@@ -17,6 +17,17 @@ header {
     padding: 15px 0;
 }
 
+header h1 {
+    display: inline-block;
+    min-width: 400px;
+    color: #ddd;
+    padding-bottom: 2px;
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 3px;
+    border-bottom: 1px solid #ddd;
+}
+
 .top {
     display: flex;
     flex-direction: row;
@@ -84,9 +95,9 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    height: 120px;
+    height: 110px;
     width: 200px;
-    background: rgba(61, 242, 255, 0.7); /* Ändra färg för visuell separation? */
+    background: rgba(230, 230, 230, 0.5); /* Ändra färg för visuell separation? */
     border: 1px solid #4e4e4e;
     border-radius: 10px;
     box-shadow: 0 0 2px black;

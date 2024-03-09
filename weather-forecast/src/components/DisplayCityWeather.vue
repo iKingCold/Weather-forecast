@@ -4,14 +4,10 @@
             <img :src="`${largeIcon}`">
         </div>
         <div class="current-weather-div">
-            <h2>Current weather</h2>
-            <h3 class="cityName">{{ resultCity }}</h3>
-            <h4 class="cityTemp">{{ resultTemp }}</h4>
-            <h4 class="cityWeather">{{ resultWeather }}</h4>
+            <h2 class="cityName">{{ resultCity }} {{ resultTemp }}</h2>
         </div>
     </div>
     <div class="forecast-div" v-if="sevenDayForecast">
-        <h2>7 day forecast</h2>
         <ul class="forecast-list">
             <li class="forecast-day" v-for="(day, index) in sevenDayForecast.daily" :key="day.dt">
                 <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
