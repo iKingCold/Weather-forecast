@@ -10,20 +10,26 @@
     <div class="forecast-div" v-if="sevenDayForecast">
         <ul class="forecast-list">
             <li class="forecast-day" v-for="(day, index) in sevenDayForecast.daily" :key="day.dt">
-                <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
                 <section class="date-section">
-                    <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
-                    <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+                    <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
+                    <div class="date-info">
+                        <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
+                        <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+                    </div>
                 </section>
-                <i class="fa-solid fa-temperature-high"></i>
                 <section class="temp-section">
-                    <span class="forecast-maxtemp">Max: <strong>{{ (day.temp.max).toFixed() }}</strong>°C</span>
-                    <span class="forecast-mintemp">Min: <strong>{{ (day.temp.min).toFixed() }}</strong>°C</span>
+                    <i class="fa-solid fa-temperature-high"></i>
+                    <div class="temp-info">
+                        <p class="forecast-maxtemp">Max: <strong>{{ (day.temp.max).toFixed() }}</strong>°C</p>
+                        <p class="forecast-mintemp">Min: <strong>{{ (day.temp.min).toFixed() }}</strong>°C</p>
+                    </div>
                 </section>
                 <section class="rain-section">
                     <h3 v-if="'rain' in day"><i class="fa-solid fa-cloud-rain"></i> {{ day.rain }} mm</h3>
                     <h3 v-else-if="'snow' in day"><i class="fa-solid fa-cloud-meatball"></i> {{ day.snow }} mm</h3>
                     <h3 v-else><i class="fa-solid fa-cloud"></i> 0 mm</h3>
+                </section>
+                <section class="condition-section">
                     <h4>{{ day.weather[0].description }}</h4>
                 </section>
                 <section class="wind-section">

@@ -3,12 +3,13 @@
         <h1>Calås & Flink's Weather App</h1>
     </header>
     <section class="top">
-        <form id="weather-form" @submit.prevent="FetchWeather">
+        <form id="weather-form" @submit.prevent>
             <label for="city-input"></label>
             <input class="input-group" type="text" id="city-input" v-model="city" autocomplete="off" placeholder="Enter city:">
-            <input class="input-group" id="search-button" type="submit" value="Search!">
+            <button class="input-group" id="search-button" @click="FetchWeather">Search!</button>
+            <button class="input-group" id="current-pos-button" @click="$refs.childRef.GetCurrentPosition(); submitted = true;"><i class="fa-solid fa-location-dot"></i></button>
         </form>
-        <button class="input-group" id="current-pos-button" @click="$refs.childRef.GetCurrentPosition(); submitted = true;"><i class="fa-solid fa-location-dot"></i></button>
+        
     </section>
     <section class="search-history">
         <h2 v-show="this.searchHistory.length > 0">Recent locations</h2>
@@ -40,7 +41,7 @@ export default {
         return {
             apiKey: "0fb98056d14c0b3b443c610b4ebe30e9",
             apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-            city: null,
+            city: "",
             submitted: false,
 
             resultCity: null,
