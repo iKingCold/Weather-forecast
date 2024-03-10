@@ -215,7 +215,7 @@ main {
     display: flex;
     width: 50px;
     height: 50px;
-    background: url('@/assets/Compass2.png') no-repeat center center/cover;
+    background: url('@/assets/Compass3.png') no-repeat center center/cover;
     background-color: rgba(61, 242, 255, 0);
     align-items: center;
     justify-content: center;

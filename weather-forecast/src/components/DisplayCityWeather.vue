@@ -20,8 +20,9 @@
                 <section class="temp-section">
                     <i class="fa-solid fa-temperature-high"></i>
                     <div class="temp-info">
-                        <p class="forecast-maxtemp">Max: <strong>{{ (day.temp.max).toFixed() }}</strong>°C</p>
-                        <p class="forecast-mintemp">Min: <strong>{{ (day.temp.min).toFixed() }}</strong>°C</p>
+                        <p class="forecast-maxtemp">Max: <strong>{{ (day.temp.max < 1 && day.temp.max > -1) ? 0 : day.temp.max.toFixed() }}</strong>°C</p>
+                        <p class="forecast-mintemp">Min: <strong>{{ (day.temp.min < 1 && day.temp.min > -1) ? 0 : day.temp.min.toFixed() }}</strong>°C</p>
+                        <!-- Fixes so that the temperature wont display negative 0 degrees(-0) when rounded. -->
                     </div>
                 </section>
                 <section class="rain-section">
