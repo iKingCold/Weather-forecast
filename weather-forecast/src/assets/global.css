@@ -32,6 +32,10 @@ header h1 {
     flex-wrap: wrap;
 }
 
+#city-input{
+    margin-bottom: 5px;
+}
+
 ::placeholder {
     color: black;
     font-size: 18px;
@@ -228,20 +232,16 @@ main {
         gap: 0;
     }
     .date-section{
-        grid-area: a;
         justify-self: start;
         border: 0;
     }
     .temp-section{
-        grid-area: b;
         justify-self: center;
     }
     .rain-section{
-        grid-area: c;
         justify-self: end;
     }
     .condition-section{
-        grid-area: d;
         justify-self: center;
         width: fit-content;
     }
@@ -256,9 +256,20 @@ main {
     }
 }
 
- @media screen and (max-width: 400px){
+ @media screen and (max-width: 420px){
     .history-boxes{
         flex-wrap: wrap;
     }
 
+    .forecast-day{
+        grid-template:  "a b"
+                        "c d"
+                        "e e" / 1fr 1fr;
+    }
+    .date-section,
+    .rain-section,
+    .temp-section,
+    .condition-section{
+        justify-self: center;
+    }
 } 
