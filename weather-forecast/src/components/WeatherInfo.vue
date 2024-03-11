@@ -77,6 +77,7 @@ export default {
         },
         async FetchWeather() {
             let result = await this.MakeApiCall(this.city);
+            console.log(result);
             this.city = "";
 
             if (result === null) { //Hanterar så att vi inte går vidare om sökningen misslyckades vid ApiCall.
