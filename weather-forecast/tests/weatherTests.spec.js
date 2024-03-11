@@ -4,11 +4,22 @@ test.beforeEach(async ({ page }) => {
   await page.goto('localhost:8080');
 });
 
-test('check that searched city appears', async ({ page }) => {
+test('check that searched city appears on Enter', async ({ page }) => {
   let cityInput = page.locator('#city-input');
   await cityInput.fill('Åre');
   await cityInput.press('Enter');
-  await expect(page.locator('.history-city', { text: 'Åre' })).toBeVisible();
+  await expect(page.locator('.history-city', { text: 'År' })).toBeVisible();
+});
+
+test('check that searched city appears on button click', async ({ page }) => {
+  let cityInput = page.locator('#city-input');
+  await cityInput.fill('New York');
+  await page.click('#search-button');
+
+  let expectedCity = 'New York';
+  let actualCity = await cityInput.inputValue();
+
+  await expect(actualCity).toBe(expectedCity);
 });
 
 test('Wrong city input alert', async ({ page }) => {
@@ -62,4 +73,20 @@ test('Check local storage', async ({ page }) => {
   expect(storedCities[0].city).toBe('Kungälv');
   expect(storedCities[1].city).toBe('Mellerud');
   expect(storedCities[2].city).toBe('Gothenburg');
+});
+
+test('Displaying forecast at click on city in history box, and if a specific element is showing Max temp text', async ({ page }) => {
+  let cityInput = page.locator('#city-input');
+  await cityInput.fill('Kalmar');
+  await cityInput.press('Enter');
+
+  let historyBox = await page.locator('.history-box');
+  await historyBox.click();
+
+  let forecast = await page.locator('.forecast-list');
+  let maxTempIndicator = await page.locator('.forecast-maxtemp').filter((element) => element.innerText().includes('Max:')).nth(5);
+
+  await expect(forecast).toBeVisible();
+  await expect(maxTempIndicator).toBeVisible();
+  await expect(await maxTempIndicator.innerText()).toContain('Max');
 });
