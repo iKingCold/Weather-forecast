@@ -35,3 +35,36 @@ test('Empty input alert', async ({ page }) => {
 
   expect(alertMessage.message()).toContain('Error: 400, Nothing to geocode \nPlease try again!');
 });
+
+test('Check local storage', async ({ page }) => {
+  let cityInput = page.locator('#city-input');
+  cityInput.fill('Göteborg');
+  cityInput.press('Enter');
+
+  await page.waitForSelector('.history-box');
+
+  let storedCities = await page.evaluate(() => {
+    return JSON.parse(localStorage.getItem('searchHistory'));
+  });
+
+  // await expect(storedCities[0].city).toBe('Gothenburg');
+
+  await cityInput.fill('Mellerud');
+  await cityInput.press('Enter');
+
+  await page.waitForSelector('.history-box');
+
+  storedCities = await page.evaluate(() => {
+    return JSON.parse(localStorage.getItem('searchHistory'));
+  });
+
+  let expectedCitites = ['Gothenburg', 'Mellerud'];
+
+  for (let i = 0; i < storedCities.length; i++) {
+    await expect(storedCities[0].city).toContain(expectedCitites[i]);
+  }
+
+  console.log("Testar", storedCities);
+
+  // await expect(storedCities[1].city).toBe('Gothenburg');
+});
