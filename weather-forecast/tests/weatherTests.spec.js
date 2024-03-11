@@ -43,28 +43,23 @@ test('Check local storage', async ({ page }) => {
 
   await page.waitForSelector('.history-box');
 
+  cityInput.fill('Mellerud');
+  cityInput.press('Enter');
+
+  await page.waitForSelector('.history-box');
+
+  cityInput.fill('Kungälv');
+  cityInput.press('Enter');
+
+  await page.waitForSelector('.history-box');
+
+  await page.waitForTimeout(500);
+
   let storedCities = await page.evaluate(() => {
     return JSON.parse(localStorage.getItem('searchHistory'));
   });
 
-  // await expect(storedCities[0].city).toBe('Gothenburg');
-
-  await cityInput.fill('Mellerud');
-  await cityInput.press('Enter');
-
-  await page.waitForSelector('.history-box');
-
-  storedCities = await page.evaluate(() => {
-    return JSON.parse(localStorage.getItem('searchHistory'));
-  });
-
-  let expectedCitites = ['Gothenburg', 'Mellerud'];
-
-  for (let i = 0; i < storedCities.length; i++) {
-    await expect(storedCities[0].city).toContain(expectedCitites[i]);
-  }
-
-  console.log("Testar", storedCities);
-
-  // await expect(storedCities[1].city).toBe('Gothenburg');
+  expect(storedCities[0].city).toBe('Kungälv');
+  expect(storedCities[1].city).toBe('Mellerud');
+  expect(storedCities[2].city).toBe('Gothenburg');
 });

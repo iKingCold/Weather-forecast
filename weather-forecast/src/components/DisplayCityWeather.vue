@@ -14,7 +14,7 @@
                     <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
                     <div class="date-info">
                         <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
-                        <span class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</span>
+                        <p class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</p>
                     </div>
                 </section>
                 <section class="temp-section">
