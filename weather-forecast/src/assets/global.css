@@ -4,6 +4,13 @@
     padding: 0;
 }
 
+body {
+    background: url('@/assets/sky-background.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
 li {
     list-style-type: none;
 }
@@ -205,12 +212,6 @@ header h1 {
     font-size: 1.4rem;
 }
 
-main {
-    background: url('@/assets/sky-background.webp');
-    background-size: cover;
-    background-attachment: fixed;
-    height: 100vh;
-}
 .svg-div{
     display: flex;
     width: 50px;
