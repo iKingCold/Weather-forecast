@@ -1,5 +1,5 @@
 <template>
-    <WeatherInfo />
+  <WeatherInfo />
 </template>
 
 <script>

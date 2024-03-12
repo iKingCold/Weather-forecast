@@ -13,15 +13,19 @@
                 <section class="date-section">
                     <img class="forecast-image" :src="`${imageUrl}${day.weather[0].icon}.png`">
                     <div class="date-info">
-                        <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000).toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
-                        <p class="forecast-date">{{ new Date(day.dt * 1000).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</p>
+                        <h3 class="forecast-weekday">{{ index === 0 ? 'Today' : new Date(day.dt * 1000)
+                            .toLocaleDateString(undefined, { weekday: 'long' }) }}</h3>
+                        <p class="forecast-date">{{ new Date(day.dt * 1000)
+                            .toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) }}</p>
                     </div>
                 </section>
                 <section class="temp-section">
                     <i class="fa-solid fa-temperature-high"></i>
                     <div class="temp-info">
-                        <p class="forecast-maxtemp">Max: <strong>{{ (day.temp.max < 1 && day.temp.max > -1) ? 0 : day.temp.max.toFixed() }}</strong>°C</p>
-                        <p class="forecast-mintemp">Min: <strong>{{ (day.temp.min < 1 && day.temp.min > -1) ? 0 : day.temp.min.toFixed() }}</strong>°C</p>
+                        <p class="forecast-maxtemp">Max: <strong>{{ (day.temp.max < 1 && day.temp.max > -1) ? 0 :
+                            day.temp.max.toFixed() }}</strong>°C</p>
+                        <p class="forecast-mintemp">Min: <strong>{{ (day.temp.min < 1 && day.temp.min > -1) ? 0 :
+                            day.temp.min.toFixed() }}</strong>°C</p>
                         <!-- Fixes so that the temperature wont display negative 0 degrees(-0) when rounded. -->
                     </div>
                 </section>

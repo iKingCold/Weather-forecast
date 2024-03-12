@@ -5,16 +5,18 @@
     <section class="top">
         <form id="weather-form" @submit.prevent>
             <label for="city-input"></label>
-            <input class="input-group" type="text" id="city-input" v-model="city" autocomplete="off" placeholder="Enter city:">
+            <input class="input-group" type="text" id="city-input" v-model="city" autocomplete="off"
+                placeholder="Enter city:">
             <button class="input-group" id="search-button" @click="FetchWeather">Search!</button>
-            <button class="input-group" id="current-pos-button" @click="$refs.childRef.GetCurrentPosition(); submitted = true;"><i class="fa-solid fa-location-dot"></i></button>
+            <button class="input-group" id="current-pos-button"
+                @click="$refs.childRef.GetCurrentPosition(); submitted = true;">
+                <i class="fa-solid fa-location-dot"></i></button>
         </form>
-        
     </section>
     <section class="search-history">
         <h2 v-show="this.searchHistory.length > 0">Recent locations</h2>
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCityBoxClick(search)">
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCity(search)">
                 <h3 class="history-city">{{ search.city }}</h3>
                 <div class="history-temp-div">
                     <h4 class="history-temp">{{ search.temperature }}</h4>
@@ -25,17 +27,17 @@
         </ul>
     </section>
     <section class="weather-data" v-show="submitted">
-        <DisplayCityWeather :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
-            :largeIcon="largeIcon" :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude" :sendGeoCity="HandleGeoCity"
-            ref="childRef" />
+        <WeatherForecast :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
+            :largeIcon="largeIcon" :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude"
+            :sendGeoCity="HandleGeoCity" ref="childRef" />
     </section>
 </template>
 
 <script>
-import DisplayCityWeather from './DisplayCityWeather.vue';
+import WeatherForecast from './WeatherForecast.vue';
 
 export default {
-    components: { DisplayCityWeather },
+    components: { WeatherForecast },
 
     data() {
         return {
@@ -77,7 +79,6 @@ export default {
         },
         async FetchWeather() {
             let result = await this.MakeApiCall(this.city);
-            console.log(result);
             this.city = "";
 
             if (result === null) { //Hanterar så att vi inte går vidare om sökningen misslyckades vid ApiCall.
@@ -120,7 +121,7 @@ export default {
             }
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
-        async ShowCityBoxClick(search) {
+        async ShowCity(search) {
             this.city = search.city;
             await this.FetchWeather();
         },
@@ -141,7 +142,7 @@ export default {
 
         setInterval(() => {
             this.UpdateHistoryData();
-        }, 300000);
+        }, 60000);
     }
 }
 </script>

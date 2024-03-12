@@ -8,7 +8,10 @@ test('check that searched city appears on Enter', async ({ page }) => {
   let cityInput = page.locator('#city-input');
   await cityInput.fill('Åre');
   await cityInput.press('Enter');
-  await expect(page.locator('.history-city', { text: 'År' })).toBeVisible();
+
+  let historyBox = await page.locator('.history-box');
+  
+  await expect(historyBox).toContainText('Åre');
 });
 
 test('check that searched city appears on button click', async ({ page }) => {
@@ -32,7 +35,6 @@ test('Wrong city input alert', async ({ page }) => {
   let alertMessage = await dialogEvent;
 
   expect(alertMessage.message()).toContain('Error: 404, city not found \nPlease try again!');
-  // expect(alertMessage).toBeTruthy();
 });
 
 test('Empty input alert', async ({ page }) => {
