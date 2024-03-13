@@ -78,9 +78,9 @@ export default {
             };
         },
         async updateWeatherData() {
-            this.resultCity = this.city; //Åtgärdar att input-fältet blir visuellt fyllt med stadnamnet igen. 
+            let cityName = this.city; //Åtgärdar att input-fältet blir visuellt fyllt med stadnamnet igen. 
             this.city = "";
-            let result = await this.makeApiCall(this.resultCity);
+            let result = await this.makeApiCall(cityName);
 
             if (result === null) { //Hanterar så att vi inte går vidare om sökningen misslyckades vid ApiCall.
                 return;
