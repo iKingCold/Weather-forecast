@@ -59,7 +59,7 @@ export default {
             geoCity: null,
             imageUrl: "https://openweathermap.org/img/wn/",
             url: "https://api.openweathermap.org/data/2.5/onecall",
-            reverseGeoUrl: "http://api.openweathermap.org/geo/1.0/reverse",
+            reverseGeoUrl: "https://api.openweathermap.org/geo/1.0/reverse",
         }
     },
     methods: {
