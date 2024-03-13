@@ -7,16 +7,16 @@
             <label for="city-input"></label>
             <input class="input-group" type="text" id="city-input" v-model="city" autocomplete="off"
                 placeholder="Enter city:">
-            <button class="input-group" id="search-button" @click="FetchWeather">Search!</button>
+            <button class="input-group" id="search-button" @click="updateWeatherData">Search!</button>
             <button class="input-group" id="current-pos-button"
-                @click="$refs.childRef.GetCurrentPosition(); submitted = true;">
+                @click="$refs.childRef.getCurrentPosition(); submitted = true;">
                 <i class="fa-solid fa-location-dot"></i></button>
         </form>
     </section>
     <section class="search-history">
         <h2 v-show="this.searchHistory.length > 0">Recent locations</h2>
         <ul class="history-boxes">
-            <li v-for="search in searchHistory" :key="search" class="history-box" @click="ShowCity(search)">
+            <li v-for="search in searchHistory" :key="search" class="history-box" @click="showCity(search)">
                 <h3 class="history-city">{{ search.city }}</h3>
                 <div class="history-temp-div">
                     <h4 class="history-temp">{{ search.temperature }}</h4>
@@ -29,7 +29,7 @@
     <section class="weather-data" v-show="submitted">
         <WeatherForecast :resultCity="resultCity" :resultTemp="resultTemp" :resultWeather="resultWeather"
             :largeIcon="largeIcon" :apiKey="apiKey" :cityLatitude="cityLatitude" :cityLongitude="cityLongitude"
-            :sendGeoCity="HandleGeoCity" ref="childRef" />
+            :sendGeoCity="handleGeoCity" ref="childRef" />
     </section>
 </template>
 
@@ -58,7 +58,7 @@ export default {
         };
     },
     methods: {
-        async MakeApiCall(city) {
+        async makeApiCall(city) {
             const url = `${this.apiUrl}?appid=${this.apiKey}&q=${city}&units=metric`
             const response = await fetch(url);
             const result = await response.json();
@@ -77,8 +77,8 @@ export default {
                 coordinates: result.coord,
             };
         },
-        async FetchWeather() {
-            let result = await this.MakeApiCall(this.city);
+        async updateWeatherData() {
+            let result = await this.makeApiCall(this.city);
             this.city = "";
 
             if (result === null) { //Hanterar så att vi inte går vidare om sökningen misslyckades vid ApiCall.
@@ -95,7 +95,7 @@ export default {
             this.weatherIcon = result.weatherIcon
             this.largeIcon = result.largeIcon
 
-            this.AddToHistory({
+            this.addToHistory({
                 city: this.resultCity,
                 temperature: this.resultTemp,
                 weatherData: this.resultWeather,
@@ -105,10 +105,10 @@ export default {
             this.submitted = true
 
             this.$nextTick(() => {
-                this.$refs.childRef.GetSevenDayForecast(this.cityLatitude, this.cityLongitude);
+                this.$refs.childRef.getSevenDayForecast(this.cityLatitude, this.cityLongitude);
             });
         },
-        AddToHistory(search) {
+        addToHistory(search) {
             const cityExists = this.searchHistory.some(city => city.city === search.city);
 
             if (!cityExists) {
@@ -121,27 +121,27 @@ export default {
             }
             localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory)); //Lägger till arrayen i LocalStorage.
         },
-        async ShowCity(search) {
+        async showCity(search) {
             this.city = search.city;
-            await this.FetchWeather();
+            await this.updateWeatherData();
         },
-        async HandleGeoCity(geoCity) {
+        async handleGeoCity(geoCity) {
             this.city = geoCity;
-            await this.FetchWeather();
+            await this.updateWeatherData();
         },
-        async UpdateHistoryData() {
+        async updateHistoryData() {
             for (let i = 0; i < this.searchHistory.length; i++) {
                 let city = this.searchHistory[i].city;
-                let result = await this.MakeApiCall(city);
+                let result = await this.makeApiCall(city);
                 this.searchHistory[i] = result;
             }
         }
     },
     mounted() {
-        this.UpdateHistoryData();
+        this.updateHistoryData();
 
         setInterval(() => {
-            this.UpdateHistoryData();
+            this.updateHistoryData();
         }, 60000);
     }
 }

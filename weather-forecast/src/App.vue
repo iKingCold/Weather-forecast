@@ -1,9 +1,9 @@
 <template>
-  <WeatherInfo />
+  <WeatherHeader />
 </template>
 
 <script>
-import WeatherInfo from "./components/WeatherInfo.vue";
+import WeatherHeader from "./components/WeatherHeader.vue";
 
 export default {
   name: 'App',
@@ -11,7 +11,7 @@ export default {
     return {
     };
   },
-  components: { WeatherInfo }
+  components: { WeatherHeader }
 }
 </script>
 
@@ -24,3 +24,4 @@ export default {
   color: #2c3e50;
 }
 </style>
+./components/WeatherHeader.vue

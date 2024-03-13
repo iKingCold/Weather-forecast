@@ -63,22 +63,22 @@ export default {
         }
     },
     methods: {
-        async GetSevenDayForecast(lat, lon) {
+        async getSevenDayForecast(lat, lon) {
             const forecastUrl = `${this.url}?lat=${lat}&lon=${lon}&exclude=minutely&appid=${this.apiKey}&units=metric`
             const forecastResponse = await fetch(forecastUrl);
             const forecastResult = await forecastResponse.json();
 
             this.sevenDayForecast = forecastResult;
         },
-        GetCurrentPosition() {
+        getCurrentPosition() {
             if (navigator.geolocation) {  // Koll om platsdelning i browsern är aktiverat (eller om browsern inte stöder det/enheten inte har möjlighet att dela position)
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         let lat = position.coords.latitude;
                         let lon = position.coords.longitude;
 
-                        this.GetGeoCity(lat, lon);
-                        this.GetSevenDayForecast(lat, lon);
+                        this.getGeoCity(lat, lon);
+                        this.getSevenDayForecast(lat, lon);
                     },
                     (error) => {
                         alert("Error getting location:", error.message)
@@ -89,7 +89,7 @@ export default {
                 alert("Geolocation not supported by this browser");
             }
         },
-        async GetGeoCity(lat, lon) {
+        async getGeoCity(lat, lon) {
             const geocodingUrl = `${this.reverseGeoUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}`;
             const geoResponse = await fetch(geocodingUrl);
             const geoResult = await geoResponse.json();
